@@ -1,0 +1,24 @@
+{
+  "use_ml_detection": true,
+  "ml_model": "unitary/toxic-bert",
+  "rate_limit": 100,
+  "rate_window": 3600,
+  "max_events": 50000,
+  "log_level": "INFO",
+  "cors_origins": [],
+  "monitoring": {
+    "enabled": true,
+    "interval_seconds": 60,
+    "alert_webhook": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  },
+  "threat_detection": {
+    "prompt_injection_threshold": 0.2,
+    "data_leakage_threshold": 0.3,
+    "function_abuse_threshold": 0.3
+  },
+  "response_sanitization": {
+    "max_length": 1500,
+    "mask_pii": true,
+    "filter_system_info": true
+  }
+}

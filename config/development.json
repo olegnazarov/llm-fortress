@@ -1,0 +1,24 @@
+{
+  "use_ml_detection": false,
+  "ml_model": "unitary/toxic-bert",
+  "rate_limit": 1000,
+  "rate_window": 3600,
+  "max_events": 10000,
+  "log_level": "DEBUG",
+  "cors_origins": ["*"],
+  "monitoring": {
+    "enabled": true,
+    "interval_seconds": 30,
+    "alert_webhook": null
+  },
+  "threat_detection": {
+    "prompt_injection_threshold": 0.3,
+    "data_leakage_threshold": 0.4,
+    "function_abuse_threshold": 0.5
+  },
+  "response_sanitization": {
+    "max_length": 2000,
+    "mask_pii": true,
+    "filter_system_info": true
+  }
+}

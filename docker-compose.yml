@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  llm-fortress:
+    build: .
+    image: llm-fortress:latest
+    container_name: llm-fortress-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - LLM_FORTRESS_CONFIG_PATH=/app/config/production.json
+      - USE_ML_DETECTION=true
+      - HOST=0.0.0.0
+      - PORT=8000
+    env_file:
+      - .env
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - llm-fortress-network
+
+  # Demo LLM Service (for testing)
+  demo-llm:
+    build: .
+    image: llm-fortress:latest
+    container_name: demo-llm-service
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONPATH=/app
+      - DEMO_MODE=true
+    command: ["python", "src/demo_llm_service.py"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      - llm-fortress
+    networks:
+      - llm-fortress-network
+
+  # Redis for rate limiting (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: llm-fortress-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - llm-fortress-network
+
+  # Prometheus for monitoring (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: llm-fortress-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    restart: unless-stopped
+    networks:
+      - llm-fortress-network
+
+  # Grafana for visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: llm-fortress-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana:/etc/grafana/provisioning
+    restart: unless-stopped
+    networks:
+      - llm-fortress-network
+
+volumes:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  llm-fortress-network:
+    driver: bridge
