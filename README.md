@@ -9,6 +9,8 @@
 
 LLM Fortress is a comprehensive security firewall designed to protect LLM applications from sophisticated threats including prompt injection, data leakage, function abuse, and context manipulation attacks.
 
+<img width="886" height="855" alt="llm_fortress" src="https://github.com/user-attachments/assets/632f9cc7-2652-4e7a-ab1b-4906c0ae5a24" />
+
 ## ✨ Key Features
 
 - 🔥 **Advanced Firewall** - Real-time request filtering and threat blocking
@@ -133,6 +135,7 @@ curl -s http://localhost:8000/api/v1/stats
 ```
 
 **Live Dashboard**: http://localhost:8000/dashboard shows real-time threat analytics, interactive charts, and security event logs.
+
 
 ## 🧪 Testing & Development
 
