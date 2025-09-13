@@ -293,8 +293,7 @@ pytest tests/ -v
 
 - 🐛 **Issues**: [GitHub Issues](https://github.com/olegnazarov/llm-fortress/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/olegnazarov/llm-fortress/discussions)
-- 📧 **Email**: oleg@olegnazarov.com
-- 💼 **LinkedIn**: [linkedin.com/in/olegnazarov-aimlsecurity](https://www.linkedin.com/in/olegnazarov-aimlsecurity)
+- 💼 **LinkedIn**: [https://www.linkedin.com/in/olegnazarovdev](https://www.linkedin.com/in/olegnazarovdev/)
 
 ## 📄 License
 
